@@ -1,0 +1,83 @@
+<!-- HEAD -->
+<%- include('../includes/head.ejs')%>
+<style>
+    input {
+        border: 2px solid white;
+        width: 300px;
+    }
+</style>
+    <body>
+        <!-- navbar -->
+        <%- include('../includes/navbar.ejs') %>
+        <hr>
+        <div class="container-fluid">
+            <div class="card mb-5 form-control bg-dark">
+                <div class="row">
+                    <% covidInfo.map((staff) => { %>
+                    <div class="col-4  d-flex">
+                            <img src="<%= staff.staffId.imageUrl %>" class="img-fluid rounded-start justify-content-center align-content-center">
+                    </div>
+                    <div class="col-8 g-0">
+                        <div class="card-body text-light">
+                            <h1 class="card-title text-warning bg-secondary text-center">
+                                <%= staff.staffId.name.toUpperCase() %>
+                            </h1>
+                            <% }) %>
+                            <hr>
+
+                            <form action="/covid-regis" method="POST">
+                                <!-- Check đã tiêm chưa -->
+                                <% covidInfo.map((item) => { %>
+                                    <% if(!item.firstDose.brand) { %>
+                                        <div class="input-group my-3">
+                                            <span class="input-group-text fs-4">Mũi 1</span>
+                                            <input type="text" name="firstDoseBrand" class="form-control" placeholder="Loại...">
+                                            <input type="date" name="firstDoseDate" class="form-control" placeholder="Ngày tiêm...">
+                                        </div>
+                                    <% } else { %>
+                                            <h4>Bạn đã tiêm mũi 1: <%= item.firstDose.brand %> - <%= item.firstDose.date.toLocaleDateString() %></h4>
+                                            <input type="hidden" name="firstDoseBrand" value="<%= item.firstDose.brand %>">
+                                            <input type="hidden" name="firstDoseDate" value="<%= item.firstDose.date %>">
+                                    <% } %>
+
+                                    <% if(!item.secondDose.brand) { %>
+                                        <div class="input-group my-3">
+                                            <span class="input-group-text fs-4">Mũi 1</span>
+                                            <input type="text" name="secondDoseBrand" class="form-control" placeholder="Loại...">
+                                            <input type="date" name="secondDoseDate" class="form-control" placeholder="Ngày tiêm...">
+                                        </div>
+                                    <% } else { %>
+                                            <h4>Bạn đã tiêm mũi 2: <%= item.secondDose.brand %> - <%= item.secondDose.date.toLocaleDateString() %></h4>
+                                            <input type="hidden" name="secondDoseBrand" value="<%= item.secondDose.brand %>">
+                                            <input type="hidden" name="secondDoseDate" value="<%= item.secondDose.date %>">
+                                    <% } %>
+                                <% }) %>
+
+                                    <div class="input-group my-3 w-25">
+                                        <span class="input-group-text fs-4">Thân nhiệt</span>
+                                        <input type="text" name="temp" class="form-control">
+                                    </div>
+
+                                    <h3>Dương tính Covid-19?</h3>
+                                    <div class="btn-group fs-4">
+                                        <select name="isCovid">
+                                            <option value="true">Có</option>
+                                            <option value="false" selected>Không</option>
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <h2 class="text-danger">Vui lòng xem kỹ, thông tin đã đăng ký không thể chỉnh sửa</h2>
+                                    <button type="submit" class="btn btn-warning fs-5">ĐĂNG KÝ</button>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+<!-- END -->
+<%- include('../includes/end.ejs') %>
+</html>

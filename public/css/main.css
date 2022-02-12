@@ -1,0 +1,33 @@
+* {
+	font-family: 'Merriweather Sans';
+}
+
+.selected {
+	border: orange 3px solid;
+	border-radius: 30px;
+}
+
+.vr {
+	border-left: 500px solid red;
+}
+
+.form-control {
+	border: 2px black solid;
+}
+
+.form-control p {
+	background: oldlace;
+	border: 1px solid #e4f00e;
+	border-radius: 5px;
+	color: black;
+}
+.form-button-hover {
+	width: 40%;
+	transition: 0.5s ease;
+	font-size: 1.5rem;
+	margin-top: 2%;
+}
+
+.form-button-hover:hover {
+	width: 100%;
+}

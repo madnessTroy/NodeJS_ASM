@@ -1,0 +1,110 @@
+<!-- HEAD -->
+<%- include('../includes/head.ejs')%>
+    <body>
+        <!-- navbar -->
+        <%- include('../includes/navbar.ejs') %>
+        <hr>
+        <div class="container-fluid">
+            <div class="card mb-5 form-control bg-dark">
+                <div class="row">
+                    <div class="col-12 g-0">
+                        <div class="card-body text-light">
+                            <div class="f-end">
+                                <form method="POST">
+                                    <select name="monthSelect" id="monthSelect" class="fs-4">
+                                        <option value="1">Tháng 1</option>
+                                        <option value="2">Tháng 2</option>
+                                        <option value="3">Tháng 3</option>
+                                        <option value="4">Tháng 4</option>
+                                        <option value="5">Tháng 5</option>
+                                        <option value="6">Tháng 6</option>
+                                        <option value="7">Tháng 7</option>
+                                        <option value="8">Tháng 8</option>
+                                        <option value="9">Tháng 9</option>
+                                        <option value="10">Tháng 10</option>
+                                        <option value="11">Tháng 11</option>
+                                        <option value="12">Tháng 12</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-danger fs-6 mb-2">Chọn</button>
+                                </form>
+                            </div>
+                            <% if (workedTime[0]) { %>
+                                <!-- Lương tháng -->
+                                <hr>
+                                <div class="text-center">
+                                    <h1 class="text-dark bg-warning py-3">TỔNG HỢP</h1>
+                                    <div class="row">
+                                        <div class="col-4 float-start">
+                                            <h3>Hệ số lương: <%= workedTime[0].staffId.salaryScale %></h3>
+                                            <h3>Tổng giờ còn thiếu: <%= totalSortTime %></h3>
+                                            <h3>Tổng giờ tăng ca: <%= totalOverTime %> </h3>
+                                        </div>
+                                        <div class="col-8">
+                                            <h2>LƯƠNG THÁNG <%= workedTime[0].month %></h2>
+                                            <h2 class="text-warning"><%= salary %></h2>
+                                            <p>Hệ số lương x 3000000 + (Tổng giờ tăng ca - Tổng giờ còn thiếu) x 200000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <!-- Chi tiết theo ngày -->
+                                <h1 class="text-dark text-center bg-warning py-3">CHI TIẾT TỪNG NGÀY</h1>
+                                <% workedTime.forEach((item) => { %>
+                                    <h3 class="text-warning">
+                                        NGÀY: <%= item.date %>-<%= item.month %>
+                                    </h3>
+                                    <table class="table table-warning table-striped align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="col-3">Nơi Làm</th>
+                                                <th scope="col" class="col-3">Bắt Đầu</th>
+                                                <th scope="col" class="col-3">Kết Thúc</th>
+                                                <th scope="col" class="col-3">Đã Làm</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% item.timesheet.forEach((data) => { %>
+                                                <tr>
+                                                    <td class="col-3"><%= data.place %></td>
+                                                    <td class="col-3"><%= data.start.toLocaleTimeString() %></td>
+                                                    <td class="col-3"><%= data.end.toLocaleTimeString() %></td>
+                                                    <td class="col-3"><%= data.worked %></td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                    <div class="col-6">
+                                        <table class="table table-bordered table-danger border-dark text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tổng</th>
+                                                    <th>Tăng Ca</th>
+                                                    <th>Nghỉ phép</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><%= item.totalHrs %></td>
+                                                    <td><%= item.overTime %></td>
+                                                    <td><%= item.annualLeaveTime %></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <% }) %>
+                            <% } else { %>
+                                <h1 class="text-center text-warning">THÁNG <%= monthSelect %> HIỆN TẠI CHƯA CÓ DỮ LIỆU!</h1>
+                            <% } %>
+                            <hr>
+                            <a href="/" class="btn btn-warning fs-4">VỀ TRANG CHỦ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+<!-- END -->
+<%- include('../includes/end.ejs') %>
+</html>

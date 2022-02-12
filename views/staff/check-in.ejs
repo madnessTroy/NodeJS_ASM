@@ -1,0 +1,63 @@
+<!-- HEAD -->
+<%- include('../includes/head.ejs')%>
+<style>
+    input {
+        border: 2px solid white;
+        width: 300px;
+    }
+    .head {
+        margin-top: 2rem;
+        padding:  5rem 0;
+    }
+</style>
+    <body>
+        <!-- navbar -->
+        <%- include('../includes/navbar.ejs') %>
+        <hr>
+        <% if(!staff.workStatus) { %>
+            <div class="container-fluid">
+                <div class="card mb-5 form-control bg-dark">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="<%= staff.imageUrl %>" class="img-fluid rounded-start mt-3">
+                        </div>
+                        <div class="col-8 g-0">
+                            <div class="card-body text-light">
+                                <h1 class="card-title text-warning bg-secondary text-center">
+                                    <%= staff.name.toUpperCase() %>
+                                </h1>
+                                <form action="/check-in" method="POST">
+                                    <h4 class="card-text mt-5">
+                                        Chọn nơi bạn làm việc:
+                                    <select name="place" class="mt-3">
+                                        <option value="Văn phòng" selected>Văn Phòng</option>
+                                        <option value="Gặp khách hàng">Gặp khách hàng</option>
+                                        <option value="Tại nhà">Tại nhà</option>
+                                    </select>
+                                    </h4>
+                                    <button type="submit" class="btn btn-success fs-4 mt-5">
+                                        CHECK IN
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="container-fluid bg-dark text-warning head text-center">
+                <h1>BẠN ĐÃ CHECK-IN VÀO LÀM RỒI!</h1>
+                <a href="/status" class="btn btn-success fs-4 mt-2 px-4">
+                    CHI TIẾT
+                </a>
+                <a href="/check-out/<%= staff._id %>" class="btn btn-danger fs-4 mt-2">
+                    CHECK OUT
+                </a>
+            </div>
+        <% } %>
+    </body>
+
+<!-- END -->
+<%- include('../includes/end.ejs') %>
+
+</html>

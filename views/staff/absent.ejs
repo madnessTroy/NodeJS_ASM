@@ -1,0 +1,100 @@
+<!-- HEAD -->
+<%- include('../includes/head.ejs')%>
+<style>
+    #annualLeave {
+        width: 10%;
+    }
+</style>
+<body>
+    <!-- navbar -->
+    <%- include('../includes/navbar.ejs') %>
+    <hr>
+    <div class="container-fluid">
+        <div class="card mb-5 form-control bg-dark">
+            <div class="row">
+                <div class="col-4">
+                        <img src="<%= staff.imageUrl %>" class="img-fluid rounded-start mt-3">
+                </div>
+                <!-- Nhân viên phải check-out trước khi đăng ký nghỉ phép -->
+                <% if(staff.workStatus) { %>
+                    <div class="col-8">
+                        <h1 class="card-title text-warning bg-secondary text-center">
+                            <%= staff.name.toUpperCase() %>
+                        </h1>
+                        <h3 class="bg-warning text-center mt-5 py-5">VUI LÒNG CHECK-OUT TRƯỚC KHI NGHỈ!</h3>
+                    </div>
+                <% } else { %>
+                    <!-- Nếu hết ngày nghỉ -->
+                    <% if(staff.annualLeave === 0) { %>
+                    <div class="col-8">
+                        <h1 class="card-title text-warning bg-secondary text-center">
+                            <%= staff.name.toUpperCase() %>
+                        </h1>
+                        <h3 class="bg-warning text-center mt-5 py-5">BẠN ĐÃ HẾT NGÀY NGHỈ PHÉP!</h3>
+                    </div>
+
+                    <!-- Nếu còn ngày nghỉ -->
+                    <% } else { %>
+                    <div class="col-8 g-0">
+                        <div class="card-body text-light">
+                            <h1 class="card-title text-warning bg-secondary text-center">
+                                <%= staff.name.toUpperCase() %>
+                            </h1>
+                            <h3 class="text-warning">ĐĂNG KÝ VẮNG</h3>
+                            <div class="row">
+                                <div class="col-8">
+                                    <form action="/absent" method="POST">
+                                        <div class="mb-3">
+                                            <label for="dateAbsent" class="form-label fs-4">Chọn ngày:</label>
+                                            <input type="text" name="dateAbsent" id="dateAbsent" class="form-control w-50" onchange="selectTimeAbsent()">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="reasonAbsent" class="form-label fs-4">Lý do:</label>
+                                            <textarea type="textarea" name="reasonAbsent" id="reasonAbsent" rows="4" class="form-control w-50"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="timeAbsent" class="form-label fs-4">Số giờ muốn nghỉ:</label>
+                                            <select class="form-select form-select-lg mb-3 w-50" name="timeAbsent" id="timeAbsent" onchange="selectTimeAbsent()">
+                                                <option>Chọn... (theo giờ)</option>
+                                                <option value="2">2</option>
+                                                <option value="4">4</option>
+                                                <option value="6">6</option>
+                                                <option value="8">8</option>
+                                            </select>
+                                        </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <h4>
+                                            Số ngày nghỉ thực:
+                                            <input type="text" value="<%= staff.annualLeave %>" id="annualLeave" class="form-control w-25 fs-4 text-center" disabled>
+                                        </h4>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h4>
+                                            Số ngày nghỉ sẽ mất:
+                                            <p id="annualLeaveLoss"></p>
+                                            <input type="hidden" id="hidden" name="annualLeaveLoss">
+                                            <p id="errMsg" class="d-none text-danger">Bạn đã chọn quá số giờ cho phép</p>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                                <hr>
+                                <button type="submit" class="btn btn-warning fs-5" id="btnAbsent">ĐĂNG KÝ</button>
+                            </form>
+                        </div>
+                    </div>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- END -->
+
+<%- include('../includes/end.ejs') %>
+<script src="/js/absent.js"></script>
+</html>

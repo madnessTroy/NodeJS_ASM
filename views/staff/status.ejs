@@ -1,0 +1,78 @@
+<!-- HEAD -->
+<%- include('../includes/head.ejs')%>
+    <body>
+        <!-- navbar -->
+        <%- include('../includes/navbar.ejs') %>
+        <hr>
+        <div class="container-fluid">
+            <div class="card mb-5 form-control bg-dark">
+                <div class="row">
+                        <div class="col-4">
+                            <img src="<%= status.staffId.imageUrl %>" class="img-fluid rounded-start mt-3">
+                        </div>
+                        <div class="col-8 g-0">
+                            <div class="card-body text-light">
+                                <h1 class="card-title text-warning bg-secondary text-center">
+                                    <%= status.staffId.name.toUpperCase() %>
+                                </h1>
+                                <% if(status.staffId.workStatus) { %>
+                                    <div class="text-center">
+                                        <button class="btn btn-warning fs-5 w-50 fw-bold" type="button" disabled>
+                                            ONLINE
+                                        </button>
+                                    </div>
+                                    <div class="mt-5">
+                                        <h3 class="text-warning">
+                                            NGÀY: <%= status.date %>-<%= status.month %>
+                                        </h3>
+                                        <% status.timesheet.map((item) => { %>
+                                            <% if(!item.end) { %>
+                                                <h4>Bạn bắt đầu lúc: <%= item.start.toLocaleTimeString() %> </h4>
+                                                <h4>Nơi làm: <%= item.place %></h4>
+                                            <% } %>
+                                        <% }) %>
+                                        <hr>
+                                        <a href="/" class="btn btn-warning fs-5">Về Trang Chủ</a>
+                                    </div>
+                                <% } else { %>
+                                    <div class="text-center">
+                                        <button class="btn btn-warning fs-5 w-50 fw-bold" type="button" disabled>
+                                            OFFLINE
+                                        </button>
+                                    </div>
+                                    <h3 class="text-warning">
+                                        NGÀY: <%= status.date %>-<%= status.month %>
+                                    </h3>
+                                    <table class="table table-warning table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Nơi Làm</th>
+                                                <th scope="col">Bắt Đầu</th>
+                                                <th scope="col">Kết Thúc</th>
+                                                <th scope="col">Đã Làm</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% status.timesheet.forEach((item) => { %>
+                                                <tr>
+                                                    <td><%= item.place %></td>
+                                                    <td><%= item.start.toLocaleTimeString() %></td>
+                                                    <td><%= item.end.toLocaleTimeString() %></td>
+                                                    <td><%= item.worked %></td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                    <h3 class="text-warning">Tổng giờ đã làm: <%= status.totalHrs %> (giờ)</h3>
+                                    <hr>
+                                    <a href="/" class="btn btn-warning fs-5">Về Trang Chủ</a>
+                                <% } %>
+                            </div>
+                        </div>
+                </div>
+    </body>
+
+<!-- END -->
+<%- include('../includes/end.ejs') %>
+
+</html>

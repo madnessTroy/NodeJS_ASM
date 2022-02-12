@@ -1,0 +1,67 @@
+<!-- HEAD -->
+<%- include('../includes/head.ejs')%>
+<style>
+    input {
+        border: 2px solid white;
+        width: 300px;
+    }
+</style>
+    <body>
+        <!-- navbar -->
+        <%- include('../includes/navbar.ejs') %>
+        <hr>
+        <div class="container-fluid">
+            <div class="card mb-5 form-control bg-dark">
+                <div class="row">
+                    <div class="col-4">
+                            <img src="<%= staff.staffId.imageUrl %>" class="img-fluid rounded-start mt-3">
+                    </div>
+
+                    <div class="col-8 g-0">
+                        <div class="card-body text-light">
+                            <h1 class="card-title text-warning bg-secondary text-center">
+                                <%= staff.staffId.name.toUpperCase() %>
+                            </h1>
+                            <h3 class="text-warning">
+                                NGÀY: <%= staff.date %>-<%= staff.month %>
+                            </h3>
+                            <table class="table table-warning table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nơi Làm</th>
+                                        <th scope="col">Bắt Đầu</th>
+                                        <th scope="col">Kết Thúc</th>
+                                        <th scope="col">Đã Làm</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% staff.timesheet.forEach((item) => { %>
+                                        <% if(item.end) { %>
+                                        <tr>
+                                            <td><%= item.place %></td>
+                                            <td><%= item.start.toLocaleTimeString() %></td>
+                                            <td><%= item.end.toLocaleTimeString() %></td>
+                                            <td><%= item.worked %></td>
+                                        </tr>
+                                        <% } else { %>
+                                            <td><%= item.place %></td>
+                                            <td colspan="3"><%= item.start.toLocaleTimeString() %></td>
+                                        <% } %>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <form action="/check-out" method="POST">
+                                <button type="submit" class="btn btn-danger fs-5">CHECK OUT</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+<!-- END -->
+<%- include('../includes/end.ejs') %>
+
+</html>
