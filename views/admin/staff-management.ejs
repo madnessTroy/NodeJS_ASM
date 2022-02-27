@@ -1,0 +1,31 @@
+<!-- HEAD -->
+<%- include('../includes/head.ejs')%>
+<body>
+    <!-- navbar -->
+    <%- include('../includes/navbar.ejs', {staff: admin }) %>
+    <hr>
+    <div class="container-fluid">
+            <h2 class="text-center text-warning my-3 bg-dark py-3">Nhân viên của bạn:</h2>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-12 mt-2">
+                        <div class="card bg-dark" style="min-width: 18rem;">
+                            <a href="/info/<%= staffList._id %>" >
+                                <img src="<%= staffList.imageUrl %>" class="card-img-top img-thumbnail" title="Xem thông tin">
+                            </a>
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-warning"><%= staffList.name.toUpperCase() %></h3>
+                                <div class="staff-card">
+                                    <a href="/admin/worked/<%= staffList._id %>" class="btn btn-success mt-2">
+                                        XEM
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+</body>
+<!-- END -->
+<%- include('../includes/end.ejs') %>
+
+</html>

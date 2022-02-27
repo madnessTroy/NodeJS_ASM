@@ -2,81 +2,94 @@
 <%- include('../includes/head.ejs')%>
     <body>
         <!-- navbar -->
-        <%- include('../includes/navbar.ejs') %>
+        <%- include('../includes/navbar.ejs', {staff: staff}) %>
         <hr>
         <div class="container-fluid">
             <div class="card mb-5 form-control bg-dark">
                 <div class="row">
-                    <% covidInfo.map((data) => { %>
+                    <% staff.map((data) => { %>
                         <div class="col-4">
-                            <img src="<%= data.staffId.imageUrl %>" class="img-fluid rounded-start mt-3">
+                            <img src="<%= data.userId.imageUrl %>" class="img-fluid rounded-start mt-3">
                         </div>
                         <div class="col-8">
-                            <h1 class="bg-warning text-dark text-center"><%= data.staffId.name.toUpperCase() %></h1>
+                            <h1 class="bg-warning text-dark text-center py-3"><%= data.userId.name.toUpperCase() %></h1>
                             <hr class="text-warning">
                             <h3 class="text-warning">Thông tin tiêm ngừa</h3>
                             <div class="row">
-                                <div class="col-6">
-                                    <!-- Thông tin mũi 1 -->
-                                    <table class="table table-warning">
-                                        <thead>
-                                            <tr>
-                                                <th>Mũi 1</th>
-                                                <th>Ngày</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><%= data.firstDose.brand %></td>
-                                                <td><%= data.firstDose.date.toLocaleDateString() %></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <% if(data.firstDose.brand) { %>
+                                    <div class="col-6">
+                                        <!-- Thông tin mũi 1 -->
+                                        <table class="table table-warning">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mũi 1</th>
+                                                    <th>Ngày</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><%= data.firstDose.brand %></td>
+                                                    <td><%= data.firstDose.date.toLocaleDateString() %></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <% } else { %>
+                                    <h3 class="text-warning">Bạn chưa tiêm mũi 1!</h3>
+                                <% } %>
                                     <!-- Thông tin mũi 2 -->
-                                <div class="col-6">
-                                    <table class="table table-warning">
-                                        <thead>
-                                            <tr>
-                                                <th>Mũi 2</th>
-                                                <th>Ngày</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><%= data.secondDose.brand %></td>
-                                                <td><%= data.secondDose.date.toLocaleDateString() %></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <% if(data.secondDose.brand) { %>
+                                    <div class="col-6">
+                                        <table class="table table-warning">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mũi 2</th>
+                                                    <th>Ngày</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><%= data.secondDose.brand %></td>
+                                                    <td><%= data.secondDose.date.toLocaleDateString() %></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <% } else { %>
+                                    <h3 class="text-warning">Bạn chưa tiêm mũi 2!</h3>
+                                <% } %>
                             </div>
-                        <% data.timesheet.forEach((item) => { %>
-                            <h3 class="text-warning">Thông tin thân nhiệt</h3>
-                            <table class="table table-warning">
-                                <thead>
+
+                        <h3 class="text-warning">Thông tin thân nhiệt</h3>
+                        <table class="table table-warning">
+                            <thead>
+                                <tr>
+                                    <th>Ngày</th>
+                                    <th>Thân nhiệt</th>
+                                    <th>Dương tính</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% data.timesheet.forEach((item) => { %>
                                     <tr>
-                                        <th>Ngày</th>
-                                        <th>Thân nhiệt</th>
-                                        <th>Dương tính</th>
+                                            <td><%= item.date %>-<%= item.month %></td>
+                                            <td><%= item.temp %>&#8451;</td>
+                                            <% if(item.isCovid) { %>
+                                                <td>Có</td>
+                                            <% } else { %>
+                                                <td>Không</td>
+                                            <% } %>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><%= item.date %>-<%= item.month %></td>
-                                        <td><%= item.temp %>&#8451;</td>
-                                        <% if(item.isCovid) { %>
-                                            <td>Có</td>
-                                        <% } else { %>
-                                            <td>Không</td>
-                                        <% } %>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr class="text-warning">
-                            <a href="/" class="btn btn-warning fs-4">Về trang chủ</a>
+                                <% }) %>
+                            </tbody>
+                        </table>
+
+                        <hr class="text-warning">
+                        <a href="/staff" class="btn btn-warning fs-4">Về trang chủ</a>
+                        <% if(isAdmin === true) { %>
+                            <a href="/admin/covid/:staffId" class="btn btn-warning fs-4 mx-3 px-4">Xuất PDF</a>
+                        <% } %>
                         </div>
-                        <% }) %>
                     <% }) %>
                 </div>
     </body>

@@ -1,0 +1,17 @@
+<section class="text-center fs-4">
+    <% if(currentPage !== 1 && previousPage !== 1) { %>
+        <a href="?page=1" class="bg-warning text-decoration-none text-light">1</a>
+    <% } %>
+    <% if(hasPreviousPage) { %>
+        <a href="?page=<%= previousPage %>" class="bg-warning text-decoration-none text-dark p-3"><%= previousPage %></a>
+    <% } %>
+
+    <a href="?page=<%= currentPage %>" class="bg-warning text-decoration-none text-dark p-3"><%= currentPage %></a>
+
+    <% if(hasNextPage) { %>
+        <a href="?page=<%= nextPage %>" class="bg-warning text-decoration-none text-dark p-3"><%= nextPage %></a>
+    <% } %>
+    <% if(lastPage !== currentPage && lastPage !== lastPage) { %>
+        <a href="?page=<%= lastPage %>" class="bg-warning text-decoration-none text-dark p-3"><%= lastPage %></a>
+    <% } %>
+</section>

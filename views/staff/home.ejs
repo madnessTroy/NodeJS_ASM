@@ -1,45 +1,42 @@
 <!-- HEAD -->
 <%- include('../includes/head.ejs')%>
+<style>
+    .staff-card .btn{
+        width: 35%;
+        transition: 0.4s ease;
+        font-size: 1.4rem;
+    }
+    .staff-card .btn:hover {
+        width: 45%;
+        color: yellow;
+    }
+</style>
     <body>
         <!-- navbar -->
         <%- include('../includes/navbar.ejs', {staff: staff}) %>
         <hr>
         <main class="container-fluid">
             <div class="row">
+                <% staff.forEach((data) => { %>
                     <div class="col-lg-3 col-md-6 col-sm-12 mt-2">
                         <div class="card bg-dark" style="min-width: 18rem;">
-                            <a href="/info/<%= staff._id %>">
-                                <img src="<%= staff.imageUrl %>" class="card-img-top img-thumbnail" title="Xem thông tin">
-                            </a>
+                            <img src="<%= data.imageUrl %>" class="card-img-top img-thumbnail" title="Xem thông tin">
                             <div class="card-body text-center">
-                                <h3 class="card-title text-warning"><%= staff.name.toUpperCase() %></h3>
-                                <% if(!staff.workStatus) { %>
+                                <h3 class="card-title text-warning"><%= data.name.toUpperCase() %></h3>
+                                <input type="hidden" id="hidden" value="<%= isAuthenticated %>">
+                                <% if(!data.workStatus) { %>
                                     <div class="staff-card">
                                         <button class="btn btn-secondary w-100" disabled>OFFLINE</button>
-                                        <input type="hidden" id="hidden" value="<%= isAuthenticated %>">
-                                        <% if(isAuthenticated) { %>
-                                            <a href="/check-in/<%= staff._id %>" class="btn btn-success mt-2">
-                                                CHECK IN
-                                            </a>
-                                            <a href="/absent/<%= staff._id %>" class="btn btn-success mt-2">
-                                                NGHỈ PHÉP
-                                            </a>
-                                        <% } %>
                                     </div>
                                 <% } else { %>
                                     <div class="staff-card">
                                         <button class="btn btn-warning w-100" disabled>ONLINE</button>
-                                        <a href="/check-out/<%= staff._id %>" class="btn btn-success mt-2">
-                                            CHECK OUT
-                                        </a>
-                                        <a href="/absent/<%= staff._id %>" class="btn btn-success mt-2">
-                                            NGHỈ PHÉP
-                                        </a>
                                     </div>
                                 <% } %>
                             </div>
                         </div>
                     </div>
+                    <% }) %>
             </div>
         </main>
 

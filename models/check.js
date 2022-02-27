@@ -5,9 +5,9 @@ const Schema = mongoose.Schema;
 const checkSchema = new Schema({
 	date: Number,
 	month: Number,
-	staffId: {
+	userId: {
 		type: Schema.Types.ObjectId,
-		ref: 'Staff',
+		ref: 'User',
 		required: true,
 	},
 	timesheet: [
@@ -25,6 +25,7 @@ const checkSchema = new Schema({
 	annualLeaveTime: Number,
 	totalHrs: Number,
 	overTime: Number,
+	isEdit: Boolean,
 });
 
 module.exports = mongoose.model('Check', checkSchema);

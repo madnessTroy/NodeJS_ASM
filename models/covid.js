@@ -3,10 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const covidSchema = new Schema({
-	staffId: {
+	userId: {
 		type: Schema.Types.ObjectId,
-		ref: 'Staff',
+		ref: 'User',
 		required: true,
+	},
+	staffList: {
+		type: Schema.Types.ObjectId,
+		ref: 'User',
 	},
 	timesheet: [
 		{

@@ -8,7 +8,7 @@
 </style>
     <body>
         <!-- navbar -->
-        <%- include('../includes/navbar.ejs') %>
+        <%- include('../includes/navbar.ejs', {staff: staff}) %>
         <hr>
         <div class="container-fluid">
             <div class="card mb-5 form-control bg-dark">
@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-8 g-0">
                         <div class="card-body text-light">
-                            <h1 class="card-title text-warning bg-secondary text-center">
+                            <h1 class="card-title text-warning bg-secondary text-center py-3">
                                 <%= staff.name.toUpperCase() %>
                             </h1>
                             <hr>
@@ -26,7 +26,7 @@
                                 <div class="fs-5 w-50">
                                     <div class="mb-3">
                                         <label for="id" class="form-label">ID:</label>
-                                        <input type="text" value="<%= staff._id %>" class="form-control bg-secondary text-warning" disabled>
+                                        <input type="text"  name="userId" value="<%= staff._id %>" class="form-control bg-secondary text-warning" disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="doB" class="form-label">Ngày sinh:</label>
@@ -58,7 +58,7 @@
                                     </div>
                                 </div>
                             <hr>
-
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button type="submit" class="btn btn-danger fs-5">CHỈNH SỬA</button>
                             </form>
                         </div>

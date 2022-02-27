@@ -2,7 +2,15 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const staffSchema = new Schema({
+const userSchema = new Schema({
+	email: {
+		type: String,
+		required: true,
+	},
+	password: {
+		type: String,
+		required: true,
+	},
 	name: {
 		type: String,
 		required: true,
@@ -19,7 +27,6 @@ const staffSchema = new Schema({
 	startDate: {
 		type: Date,
 		required: true,
-		default: Date.now,
 	},
 	department: {
 		type: String,
@@ -30,11 +37,13 @@ const staffSchema = new Schema({
 		required: true,
 		default: 0,
 	},
-	workStatus: Boolean,
 	imageUrl: {
 		type: String,
 		required: true,
 	},
+	workStatus: Boolean,
+	isAdmin: Boolean,
+	staffList: Schema.Types.ObjectId,
 });
 
-module.exports = mongoose.model('Staff', staffSchema);
+module.exports = mongoose.model('User', userSchema);

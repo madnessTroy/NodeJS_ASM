@@ -1,56 +1,58 @@
 <!-- HEAD -->
 <%- include('../includes/head.ejs')%>
-<style>
-    li a{
-        color: orange;
-        transition: .25 ease;
-    }
-    li a:hover {
-        background-color: white;
-        border: 1px solid black;
-        border-radius: 5px ;
-    }
-    .btn {
-        width: 35%;
-        transition: 0.4s ease;
-        font-size: 1.4rem;
-    }
-
-    .btn:hover {
-        width: 45%;
-        color: yellow;
-    }
-</style>
-    <body>
-        <!-- navbar -->
-        <%- include('../includes/navbar.ejs') %>
-        <hr>
-        <main class="container-fluid">
-                <div class="row">
-                    <% covidInfo.forEach((staff) => { %>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mt-2">
-                            <div class="card bg-dark" style="min-width: 18rem;">
-                                <a href="/info/<%= staff.staffId._id %>" >
-                                    <img src="<%= staff.staffId.imageUrl %>" class="card-img-top img-thumbnail" title="Xem thông tin">
+<body>
+    <!-- navbar -->
+    <%- include('../includes/navbar.ejs', {staff: staff}) %>
+    <hr>
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center">
+            <% staff.forEach((staff) => { %>
+                <div class="col-lg-3 col-md-6 col-sm-12 mt-2">
+                    <div class="card bg-dark" style="min-width: 18rem;">
+                        <a href="/info/<%= staff.userId._id %>" >
+                            <img src="<%= staff.userId.imageUrl %>" class="card-img-top img-thumbnail" title="Xem thông tin">
+                        </a>
+                        <div class="card-body text-center">
+                            <h3 class="card-title text-warning"><%= staff.userId.name.toUpperCase() %></h3>
+                            <div class="staff-card">
+                                <a href="/covid/<%= staff.userId._id %>" class="btn btn-success mt-2">
+                                    XEM
                                 </a>
-                                <div class="card-body text-center">
-                                    <h3 class="card-title text-warning"><%= staff.staffId.name.toUpperCase() %></h3>
-                                    <div>
-                                        <a href="/covid/<%= staff._id %>" class="btn btn-success mt-2">
-                                            XEM
-                                        </a>
-                                        <a href="/covid-regis/<%= staff._id %>" class="btn btn-success mt-2">
-                                            ĐĂNG KÝ
-                                        </a>
-                                    </div>
+                                <a href="/covid-regis/<%= staff.userId._id %>" class="btn btn-success mt-2">
+                                    ĐĂNG KÝ
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <div class="container">
+        <% if(staffList) { %>
+            <h2 class="text-center text-warning my-3 bg-dark py-3">Nhân viên của bạn:</h2>
+            <% staffList.forEach((staff) => { %>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-12 mt-2">
+                        <div class="card bg-dark" style="min-width: 18rem;">
+                            <a href="/info/<%= staff._id %>" >
+                                <img src="<%= staff.imageUrl %>" class="card-img-top img-thumbnail" title="Xem thông tin">
+                            </a>
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-warning"><%= staff.name.toUpperCase() %></h3>
+                                <div class="staff-card">
+                                    <a href="/covid/<%= staff._id %>" class="btn btn-success mt-2">
+                                        XEM
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    <% }) %>
-            </div>
-        </main>
-
-    </body>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</body>
 <!-- END -->
 <%- include('../includes/end.ejs') %>
 

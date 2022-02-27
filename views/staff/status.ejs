@@ -2,20 +2,20 @@
 <%- include('../includes/head.ejs')%>
     <body>
         <!-- navbar -->
-        <%- include('../includes/navbar.ejs') %>
+        <%- include('../includes/navbar.ejs', {staff: staff.userId}) %>
         <hr>
         <div class="container-fluid">
             <div class="card mb-5 form-control bg-dark">
                 <div class="row">
                         <div class="col-4">
-                            <img src="<%= status.staffId.imageUrl %>" class="img-fluid rounded-start mt-3">
+                            <img src="<%= staff.userId.imageUrl %>" class="img-fluid rounded-start mt-3">
                         </div>
                         <div class="col-8 g-0">
                             <div class="card-body text-light">
-                                <h1 class="card-title text-warning bg-secondary text-center">
-                                    <%= status.staffId.name.toUpperCase() %>
+                                <h1 class="card-title text-warning bg-secondary text-center py-3">
+                                    <%= staff.userId.name.toUpperCase() %>
                                 </h1>
-                                <% if(status.staffId.workStatus) { %>
+                                <% if(staff.userId.workStatus) { %>
                                     <div class="text-center">
                                         <button class="btn btn-warning fs-5 w-50 fw-bold" type="button" disabled>
                                             ONLINE
@@ -23,16 +23,16 @@
                                     </div>
                                     <div class="mt-5">
                                         <h3 class="text-warning">
-                                            NGÀY: <%= status.date %>-<%= status.month %>
+                                            NGÀY: <%= staff.date %>-<%= staff.month %>
                                         </h3>
-                                        <% status.timesheet.map((item) => { %>
+                                        <% staff.timesheet.map((item) => { %>
                                             <% if(!item.end) { %>
                                                 <h4>Bạn bắt đầu lúc: <%= item.start.toLocaleTimeString() %> </h4>
                                                 <h4>Nơi làm: <%= item.place %></h4>
                                             <% } %>
                                         <% }) %>
                                         <hr>
-                                        <a href="/" class="btn btn-warning fs-5">Về Trang Chủ</a>
+                                        <a href="/staff" class="btn btn-warning fs-5">Về Trang Chủ</a>
                                     </div>
                                 <% } else { %>
                                     <div class="text-center">
@@ -41,7 +41,7 @@
                                         </button>
                                     </div>
                                     <h3 class="text-warning">
-                                        NGÀY: <%= status.date %>-<%= status.month %>
+                                        NGÀY: <%= staff.date %>-<%= staff.month %>
                                     </h3>
                                     <table class="table table-warning table-striped">
                                         <thead>
@@ -53,7 +53,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% status.timesheet.forEach((item) => { %>
+                                            <% staff.timesheet.forEach((item) => { %>
                                                 <tr>
                                                     <td><%= item.place %></td>
                                                     <td><%= item.start.toLocaleTimeString() %></td>
@@ -63,9 +63,9 @@
                                             <% }) %>
                                         </tbody>
                                     </table>
-                                    <h3 class="text-warning">Tổng giờ đã làm: <%= status.totalHrs %> (giờ)</h3>
+                                    <h3 class="text-warning">Tổng giờ đã làm: <%= staff.totalHrs %> (giờ)</h3>
                                     <hr>
-                                    <a href="/" class="btn btn-warning fs-5">Về Trang Chủ</a>
+                                    <a href="/staff" class="btn btn-warning fs-5">Về Trang Chủ</a>
                                 <% } %>
                             </div>
                         </div>

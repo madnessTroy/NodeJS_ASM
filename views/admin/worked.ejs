@@ -2,13 +2,13 @@
 <%- include('../includes/head.ejs')%>
     <body>
         <!-- navbar -->
-        <%- include('../includes/navbar.ejs', {staff: staff}) %>
+        <%- include('../includes/navbar.ejs', {staff: admin[0]}) %>
         <hr>
         <div class="container-fluid">
             <div class="card mb-5 form-control bg-dark">
                 <div class="row">
                     <div class="card-body text-light">
-                        <div class="col-3">
+                        <div class="col-12">
                             <form method="POST">
                                 <select name="monthSelect" id="monthSelect" class="fs-4">
                                     <option value="1">Tháng 1</option>
@@ -26,6 +26,7 @@
                                 </select>
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <button type="submit" class="btn btn-danger fs-6 mb-2">Chọn</button>
+                                <h1 class="float-end">Nhân viên: <%= staff[0].userId.name %></h1>
                             </form>
                         </div>
                             <% if (staff !== undefined) { %>
@@ -34,22 +35,15 @@
                                 <div class="text-center">
                                     <h1 class="text-dark bg-warning py-3">TỔNG HỢP</h1>
                                     <div class="row">
-                                        <div class="col-4 float-start">
+                                        <div class="col-4">
                                             <h3>Hệ số lương: <%= staff[0].userId.salaryScale %></h3>
                                             <h3>Tổng giờ còn thiếu: <%= totalSortTime %></h3>
                                             <h3>Tổng giờ tăng ca: <%= totalOverTime %> </h3>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-8">
                                             <h2>LƯƠNG THÁNG <%= staff[0].month %></h2>
                                             <h2 class="text-warning"><%= salary %></h2>
                                             <p>Hệ số lương x 3000000 + (Tổng giờ tăng ca - Tổng giờ còn thiếu) x 200000</p>
-                                        </div>
-                                        <div class="col-4">
-                                            <% if(staff[0].userId.isAdmin !== true) { %>
-                                                    <h2>Quản lý của bạn:</h2>
-                                                    <p><%= staffList[0]._id %></p>
-                                                    <p><%= staffList[0].name %></p>
-                                            <% } %>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +72,30 @@
                                                             <td class="col-3"><%= data.place %></td>
                                                             <td class="col-3"><%= data.start.toLocaleTimeString() %></td>
                                                             <td class="col-3"><%= data.end ? data.end.toLocaleTimeString() : '-'  %></td>
-                                                            <td class="col-3"><%= data.worked ? data.worked : 0 %></td>
+                                                            <td class="col-3">
+                                                            <% if(item.isEdit === true) { %>
+                                                                <form method="POST" action="/admin/deleteWorked/<%= staff[0].userId._id %>">
+                                                                    <%= data.worked ? data.worked : 0 %>
+                                                                    <input type="hidden" name="start" value="<%= data.start %>">
+                                                                    <input type="hidden" name="checkId" value="<%= data._id %>">
+
+                                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                                                                    <button class="btn btn-danger fs-6 float-end delete-btn" type="button" title="Xoá">
+                                                                        Xoá
+                                                                    </button>
+                                                                    <!-- Submit/ Cancel -->
+                                                                    <button class="btn btn-danger fs-6 float-end confirm-btn" type="submit">
+                                                                        Xác Nhận
+                                                                    </button>
+                                                                    <button class="btn btn-secondary fs-6 float-end cancel-btn" type="button">
+                                                                        Huỷ
+                                                                    </button>
+                                                                </form>
+                                                            <% } else { %>
+                                                                <%= data.worked ? data.worked : 0 %>
+                                                            <% } %>
+                                                            </td>
                                                         </tr>
                                                     <% }) %>
                                                 </tbody>
@@ -112,6 +129,7 @@
                                 <% } %>
                             <% } %>
                             <hr>
+                            <!-- Pagination -->
                             <%- include('../includes/pagination.ejs', {currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage, hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage}) %>
                         </div>
                 </div>
@@ -121,4 +139,6 @@
 
 <!-- END -->
 <%- include('../includes/end.ejs') %>
+
+<script src="/js/admin-worked.js"></script>
 </html>

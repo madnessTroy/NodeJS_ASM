@@ -31,3 +31,24 @@
 .form-button-hover:hover {
 	width: 100%;
 }
+
+li a {
+	color: orange;
+	transition: 0.25 ease;
+}
+li a:hover {
+	background-color: white;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.staff-card .btn {
+	width: 35%;
+	transition: 0.4s ease;
+	font-size: 1.4rem;
+}
+
+.staff-card .btn:hover {
+	width: 45%;
+	color: yellow;
+}

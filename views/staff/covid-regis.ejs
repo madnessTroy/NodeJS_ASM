@@ -8,26 +8,26 @@
 </style>
     <body>
         <!-- navbar -->
-        <%- include('../includes/navbar.ejs') %>
+        <%- include('../includes/navbar.ejs', {staff: staff}) %>
         <hr>
         <div class="container-fluid">
             <div class="card mb-5 form-control bg-dark">
                 <div class="row">
-                    <% covidInfo.map((staff) => { %>
+                    <% staff.map((staff) => { %>
                     <div class="col-4  d-flex">
-                            <img src="<%= staff.staffId.imageUrl %>" class="img-fluid rounded-start justify-content-center align-content-center">
+                            <img src="<%= staff.userId.imageUrl %>" class="img-fluid rounded-start justify-content-center align-content-center">
                     </div>
                     <div class="col-8 g-0">
                         <div class="card-body text-light">
-                            <h1 class="card-title text-warning bg-secondary text-center">
-                                <%= staff.staffId.name.toUpperCase() %>
+                            <h1 class="card-title text-warning bg-secondary text-center py-3">
+                                <%= staff.userId.name.toUpperCase() %>
                             </h1>
                             <% }) %>
                             <hr>
 
                             <form action="/covid-regis" method="POST">
                                 <!-- Check đã tiêm chưa -->
-                                <% covidInfo.map((item) => { %>
+                                <% staff.map((item) => { %>
                                     <% if(!item.firstDose.brand) { %>
                                         <div class="input-group my-3">
                                             <span class="input-group-text fs-4">Mũi 1</span>
@@ -55,7 +55,16 @@
 
                                     <div class="input-group my-3 w-25">
                                         <span class="input-group-text fs-4">Thân nhiệt</span>
-                                        <input type="text" name="temp" class="form-control">
+                                        <input type="text" name="temp" class="form-control w-25">
+                                        <% staff.map((item) => { %>
+                                            <% item.timesheet.forEach((data) => { %>
+                                                <% if(data.date == now.getDate() && data.month == now.getMonth() + 1 ) { %>
+                                                    <span class="input-group-text bg-danger text-light fs-4">
+                                                        Bạn đã đăng ký thân nhiệt (<%= data.date %>-<%= data.month %>): <%= data.temp %>&#8451;
+                                                    </span>
+                                                <% } %>
+                                            <% }) %>
+                                        <% }) %>
                                     </div>
 
                                     <h3>Dương tính Covid-19?</h3>
@@ -67,10 +76,9 @@
                                     </div>
                                     <hr>
                                     <h2 class="text-danger">Vui lòng xem kỹ, thông tin đã đăng ký không thể chỉnh sửa</h2>
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit" class="btn btn-warning fs-5">ĐĂNG KÝ</button>
                             </form>
-
-
                         </div>
                     </div>
                 </div>
