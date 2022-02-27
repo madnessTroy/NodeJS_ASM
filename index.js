@@ -15,7 +15,8 @@ const adminRoutes = require('./routes/admin');
 // User model
 const User = require('./models/user');
 // MongoDB link
-const MONGODB_URI = 'mongodb+srv://admin:admin@asm1.vqwxp.mongodb.net/myFirstDatabase';
+const MONGODB_URI =
+	'mongodb+srv://admin:admin@asm1.vqwxp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 // Initial app
 const app = express();
