@@ -11,4 +11,7 @@ Bài ASM 2 của môn NodeJS
   - Phân quyền người dùng (Admin / User) 
   - Phân nhỏ trang (số lượt check-in/out trong ngày) (/worked/:stafFId)
   - Tăng bảo mật cho trang: có session và cookie, csrfToken 
-     
+
+User email & password for testing: 
+ - Admin: admin@admin.com || 123
+ - Staff: staff@staff.com || 123
