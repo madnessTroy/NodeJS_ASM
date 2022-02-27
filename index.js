@@ -45,14 +45,14 @@ app.use(authRoutes);
 app.use(userRoutes);
 app.use('/admin', adminRoutes);
 // Connect to DB and initial WebServer
-const PORT = 3000;
 
 mongoose
 	.connect(MONGODB_URI)
 	.then(() => {
 		console.log(`From index.js \nConnect to DB Success!`);
-		app.listen(PORT);
-		console.log(`Server is running on PORT: ${PORT}`);
+		app.listen(process.env.PORT || 8080, '0.0.0.0', () => {
+			console.log(`Server is running`);
+		});
 	})
 	.catch((err) => {
 		console.log(`From index.js || Connect to DB Failed! ${err}`);
